@@ -20,7 +20,7 @@
 
 
 
-欢迎大家提出各种问题，让控件越来越好用谢谢。
+欢迎start fork issues提出各种问题，让项目越来越完善 谢谢。
 	2019.3.14 Androidmsky
 ## License
 
