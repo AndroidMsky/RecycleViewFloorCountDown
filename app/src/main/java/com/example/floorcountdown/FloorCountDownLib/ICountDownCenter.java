@@ -1,5 +1,7 @@
 package com.example.floorcountdown.FloorCountDownLib;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.Observer;
 
 /**
@@ -12,4 +14,5 @@ public interface ICountDownCenter {
     void stopCountdown();
     boolean containHolder(Observer observer);
     void notifyAdapter();
+    void bindRecyclerView(RecyclerView recyclerView);
 }

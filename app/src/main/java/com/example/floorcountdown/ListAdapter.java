@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.floorcountdown.FloorCountDownLib.Center;
 import com.example.floorcountdown.FloorCountDownLib.ICountDownCenter;
 
 import java.util.ArrayList;
@@ -76,8 +77,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         @Override
         public void update(Observable o, Object arg) {
-            Log.e("lmtlmtupdate", "update" + lastBindPositon);
-            bindCountView(textView, timeBean);
+
+            if (arg!=null&&arg instanceof Center.PostionFL){
+                Center.PostionFL postionFL=(Center.PostionFL)arg;
+                if (lastBindPositon>=postionFL.frist&&lastBindPositon<=postionFL.last){
+                    Log.e("lmtlmtupdate", "update" + lastBindPositon);
+                    bindCountView(textView, timeBean);
+                }
+            }
+
 
         }
 

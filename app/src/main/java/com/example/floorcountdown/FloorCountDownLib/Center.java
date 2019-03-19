@@ -2,6 +2,9 @@ package com.example.floorcountdown.FloorCountDownLib;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -19,6 +22,7 @@ public class Center implements ICountDownCenter {
     private final boolean CHANGEABLE;
     private volatile boolean isStart;
     private WeakHashMap<Observer, Object> weakHashMap = new WeakHashMap();
+    private PostionFL postionFL=new PostionFL();
 
     /*
     * @param beatTime 更新频率
@@ -35,7 +39,11 @@ public class Center implements ICountDownCenter {
         BEAT_TIME = beatTime;
         CHANGEABLE = changeable;
     }
+    public static class PostionFL{
+        public int frist=-1;
+        public int last=-1;
 
+    }
 
     class CountDownHandler extends Handler {
         @Override
@@ -55,6 +63,36 @@ public class Center implements ICountDownCenter {
     private CountDownHandler handler = new CountDownHandler();
 
 
+    @Override
+    public void bindRecyclerView(RecyclerView recyclerView){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int first=-1;
+                int last=-1;
+
+                RecyclerView.LayoutManager layoutManager=recyclerView.getLayoutManager();
+                if (layoutManager instanceof GridLayoutManager){
+                     first=((GridLayoutManager)layoutManager).findFirstVisibleItemPosition();
+                     last=((GridLayoutManager)layoutManager).findLastVisibleItemPosition();
+                }
+                if (layoutManager instanceof LinearLayoutManager){
+                     first=((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
+                     last=((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
+                }
+                postionFL.frist=first;
+                postionFL.last=last;
+
+                Log.e("lmtlmt2","frist:"+first+"last:"+last);
+            }
+        });
+    }
     private void notifyHolder() {
         if (isStart)
             notifyObservers();
@@ -67,7 +105,9 @@ public class Center implements ICountDownCenter {
             Map.Entry entry = (Map.Entry) iter.next();
             Observer observer = (Observer) entry.getKey();
             if (observer != null) {
-                observer.update(null, null);
+                if (postionFL.frist>-1&&postionFL.last>-1)
+                observer.update(null, postionFL);
+                else observer.update(null, null);
             }
 
 
