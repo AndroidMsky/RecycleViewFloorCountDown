@@ -43,7 +43,7 @@ public class MainActivityB extends AppCompatActivity {
             public void onClick(View v) {
                 //countDownCenter.notifyAdapter();
                 listAdapter.removeFloor(99);
-//                测试重新setAdatper
+//                测试重新setAdatper1
 //                list=new ArrayList<>();
 //                list.add(new TimeBean(1*10000));
 //                countDownCenter.deleteObservers();
@@ -52,6 +52,7 @@ public class MainActivityB extends AppCompatActivity {
 
             }
         });
+
 
 
     }
